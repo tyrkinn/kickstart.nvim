@@ -102,6 +102,11 @@ require('lazy').setup({
         },
       }
 
+      vim.wo.foldlevel = 99
+      vim.wo.conceallevel = 2
+    end,
+  },
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -247,7 +252,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -424,6 +429,9 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>hf', require('harpoon.ui').toggle_quick_menu, { desc = 'Harpoon toggle menu' })
+vim.keymap.set('n', '<leader>hh', require('harpoon.mark').add_file, { desc = 'Harpoon hook file' })
+vim.keymap.set('n', '<leader>hc', require('harpoon.mark').clear_all, { desc = 'Harpoon clear all' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -580,3 +588,12 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+-- Custom commands
+vim.api.nvim_create_user_command(
+  'Fix',
+  function()
+    vim.api.nvim_command(':EslintFixAll')
+  end,
+  {}
+)
