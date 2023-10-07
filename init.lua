@@ -81,6 +81,27 @@ require('lazy').setup({
     end,
   },
 
+  -- Neorg plugin for managing notes
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                notes = "~/notes",
+              },
+              default_workspace = "notes",
+            },
+          },
+        },
+      }
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
